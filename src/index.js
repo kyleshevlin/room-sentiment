@@ -14,6 +14,9 @@ const client = new ApolloClient({
   },
 })
 
+const inflect = (singular, plural) => number =>
+  number === 1 ? singular : plural
+
 const createSentiment = value => gql`
   mutation CreateSentiment {
     createSentiment(data: {
@@ -279,6 +282,8 @@ const resultsMachine = Machine(
   }
 )
 
+const inflectParticipant = inflect('participant', 'participants')
+
 const Results = () => {
   const [current, send] = useMachine(resultsMachine)
   const { sentiments } = current.context
@@ -301,8 +306,8 @@ const Results = () => {
           {calculateAverageSentiment(sentiments)}
         </div>
         <div>
-          ...out of {sentiments.length} participants. Thanks for being one of
-          them.
+          ...out of {inflectParticipant(sentiments.length)}. Thanks for being
+          one of them.
         </div>
       </div>
     )
