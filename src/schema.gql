@@ -1,0 +1,7 @@
+type Sentiment {
+  value: Int!
+}
+
+type Query {
+  allSentiments: [Sentiment!]
+}
